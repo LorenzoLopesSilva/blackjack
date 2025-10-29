@@ -107,7 +107,10 @@ def iniciar_jogo(vidas = 3):
     print(f"Você tem {vidas} vidas.")
 
     cartas_usuario = escolha_menu()
-    
+
+    processo_vidas(cartas_usuario, vidas)
+
+def processo_vidas(cartas_usuario, vidas):
     if cartas_usuario == None:
         vidas -= 1
         continuar(vidas)
