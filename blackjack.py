@@ -87,13 +87,17 @@ def escolher_carta():
 
 def iniciar_menu():
     escolha_iniciar = int(input("Digite sua escolha: " \
-    "\n 1- Iniciar" \
-    "\n 2- Sair" \
+    "\n 1- Iniciar Singleplayer " \
+    "\n 2- Iniciar Multiplayer"
+    "\n 3- Sair" \
     "\n"))
 
     if escolha_iniciar == 1:
         iniciar_jogo()
     elif escolha_iniciar == 2:
+        apagar()
+        iniciar_multiplayer()
+    elif escolha_iniciar == 3:
         pass
     else:
         print("Escolha invalida")
@@ -202,5 +206,84 @@ def verificar_vidas(vidas):
         apagar()
         print("Suas vidas acabaram...")
         sair()
+
+#--------------------------------------------------------------------------
+def iniciar_multiplayer(vidas_player1 = 3, vidas_player2 = 3):
+    n_rodada = 1
+    vidas_player1 = vidas_player1
+    vidas_player2 = vidas_player2
+
+    while True:
+        print(f"Rodada {n_rodada}")
+        rodada()
+        input()
+        n_rodada += 1
+
+def rodada():
+    print("\nPlayer 1: ")
+    cartas_player1 = escolha_inicial()
+    print(f"Total do Player 1: {cartas_player1}")
+
+    print("\nVez do Player 2: ")
+    cartas_player2 = escolha_inicial()
+    print(f"Total do Player 2: {cartas_player2}")
+
+    (cartas_player1, cartas_player2) = rodadas_alternadas(cartas_player1, cartas_player2)
+    print(f"Player1: {cartas_player1} "
+          f"\nPlayer2: {cartas_player2}")
+    
+def escolha_inicial():
+    carta_1 = escolher_carta()
+    carta_2 = escolher_carta()
+    total_cartas = carta_1 + carta_2
+    print(f"Total: {total_cartas}")
+
+    escolha = input("\nDeseja adicionar outra carta? (s/n): ").lower()
+    if escolha == 's':
+        total_cartas += escolher_carta()
+        if estourou(total_cartas):
+            
+    
+    return total_cartas
+
+def rodadas_alternadas(cartas_player1, cartas_player2):
+    continuar_player1 = True
+    continuar_player2 = True
+
+    while continuar_player1 and continuar_player2:
+        continuar_player1 = True
+        continuar_player2 = True
+
+        if (continuar_player1):
+            print("\nVez do player 1: ")
+            escolha1 = input(f"\nTotal: {cartas_player1}. Deseja adicionar outra carta? (s/n): ").lower()
+            if escolha1 == "s":
+                cartas_player1 += escolher_carta()
+                print(f"Total: {cartas_player1}")
+                
+            else:
+                print("Player 1 passou. ")
+                continuar_player1 = False
+
+
+        if (continuar_player2):
+            print("Vez do player 2: ")
+            escolha2 = input(f"\nTotal: {cartas_player2}. Deseja adicionar outra carta? (s/n): ").lower()
+            if escolha2 == "s":
+                cartas_player2 += escolher_carta()
+                print(f"Total: {cartas_player2}")
+            else:
+                print("Player 1 passou. ")
+                continuar_player1 = False
+    print("Os dois pularam. \n\nResultado da Rodada: ")
+    return (cartas_player1, cartas_player2)
+
+def estourou(cartas):
+    if cartas > 21:
+        print(f"Estourou!")
+        return True
+    else:
+        return False
+
 
 iniciar_menu()
